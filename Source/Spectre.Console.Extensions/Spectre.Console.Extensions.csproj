@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Build">
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <Product>Spectre.Console.Extensions</Product>
+    <Description>A library that makes it easier to do progress reporting for beautiful console apps made with Spectre.Console</Description>
+  </PropertyGroup>
+</Project>
