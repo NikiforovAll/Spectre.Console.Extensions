@@ -1,10 +1,7 @@
-﻿using System.Threading;
-namespace Samples
+﻿namespace Samples
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading;
@@ -24,22 +21,28 @@ namespace Samples
         public static async Task Main()
         {
             // string url = "as5.png";
-            string url = "https://api.github.com/users";
+            string url = "http://speedtest-ny.turnkeyinternet.net/100mb.bin";
             var httpClient = GenerateHttpClient();
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+            CancellationTokenSource cts =
+                new CancellationTokenSource(TimeSpan.FromMinutes(5));
             string? writtenFile = null;
             try
             {
                 await BuildProgress().StartAsync(
                     httpClient,
                     new HttpRequestMessage(HttpMethod.Get, url),
-                    url,
+                    taskDescription: url,
                     (stream) => SaveFileAsync(stream, cts.Token)
-                    .ContinueWith((t) => { writtenFile = t.Result; }, TaskScheduler.Current));
-                // AnsiConsole.MarkupLine(
-                //     $"{Emoji.Known.CheckMarkButton} [underline grey]{writtenFile}[/]");
-                // var image = new CanvasImage(writtenFile).MaxWidth(16);
-                // AnsiConsole.Render(image);
+                        .ContinueWith((t) => { writtenFile = t.Result; }, TaskScheduler.Current));
+                if (writtenFile is not null)
+                {
+                    AnsiConsole.MarkupLine(
+                        $"{Emoji.Known.CheckMarkButton} [underline grey]{writtenFile}[/] {new FileInfo(writtenFile).Length}");
+                    if (AnsiConsole.Confirm("Want to delete file?"))
+                    {
+                        File.Delete(writtenFile);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -53,14 +56,11 @@ namespace Samples
             Stream inputStream,
             CancellationToken token)
         {
-            string fileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".json";
+            string fileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".bin";
             var memstream = new MemoryStream();
             await inputStream.CopyToAsync(memstream, token);
             await inputStream.FlushAsync(token);
-            await File.WriteAllBytesAsync(
-                fileName,
-                (inputStream as MemoryStream).ToArray(),
-                token);
+            await File.WriteAllBytesAsync(fileName, memstream.ToArray(), token);
             return fileName;
         }
 
@@ -77,10 +77,7 @@ namespace Samples
 
         private static HttpClient GenerateHttpClient()
         {
-            var client = new HttpClient()
-            {
-                // BaseAddress = new Uri("https://mod-dotnet-bot.net/assets/images/gallery/"),
-            };
+            var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "BotScrapperFromSpectreConsole");
             client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue()
             {
