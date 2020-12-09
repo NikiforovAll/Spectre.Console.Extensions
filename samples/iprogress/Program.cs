@@ -1,6 +1,7 @@
 ﻿namespace Samples
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -20,62 +21,35 @@
         /// Entry point.
         /// </summary>
         /// <returns>Result.</returns>
-        public static async Task Main()
+        public static async Task Main() => await RunSimpleExampleAsync();
+
+        private static async Task RunSimpleExampleAsync()
         {
-            string[] urls =
-            {
-                "as5.png",
-                "dotNET-bot_kamckinn_v2.png",
-            };
-            var client = GenerateHttpClient();
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            var messagesTasks = urls
-                .Select(u => client.GetAsync(u, HttpCompletionOption.ResponseHeadersRead, cts.Token))
-                .ToList();
-            var work = Task.WhenAll(messagesTasks);
-            var messages = messagesTasks.Select(t => t.Result.EnsureSuccessStatusCode()).ToList();
-            IList<long?> totals = messages
-                .Select(m => m.Content.Headers.ContentLength)
-                .ToList();
+            await BuildProgress().StartAsync(
+                GenerateProgressTasks,
+                (reporter) =>
+                    RunSpinnerWithIProgress(reporter, TimeSpan.FromMilliseconds(500)),
+                (reporter) =>
+                    RunSpinnerWithIProgress(reporter, TimeSpan.FromSeconds(1)));
 
-            IEnumerable<ProgressTask> DeclareTasks(ProgressContext context)
+            static IEnumerable<ProgressTask> GenerateProgressTasks(ProgressContext ctx)
             {
-                yield return context.AddTask(
-                    $"Content-Length: {totals[0]}", new ProgressTaskSettings() { MaxValue = totals[0] ?? -1 });
-                yield return context.AddTask(
-                    $"Content-Length: {totals[1]}", new ProgressTaskSettings() { MaxValue = totals[1] ?? -1 });
+                yield return ctx.AddTask("Task1");
+                yield return ctx.AddTask("Task2");
             }
-            var files = new List<string>();
-            Task DoSomeWork1(IProgress<double> p) =>
-                DoSomeWorkCoreAsync(messages[0].Content, p, cts.Token)
-                    .ContinueWith(ReportReceivedFile);
 
-            Task DoSomeWork2(IProgress<double> p) =>
-                DoSomeWorkCoreAsync(messages[1].Content, p, cts.Token)
-                    .ContinueWith(ReportReceivedFile);
-
-            void ReportReceivedFile<T>(Task<T> t)
+            static async Task RunSpinnerWithIProgress(
+                IProgress<double> reporter,
+                TimeSpan delay)
             {
-                lock (files)
+                var capacity = 100;
+                var step = 10;
+                while (capacity > 0)
                 {
-                    files.Add(t.Result.ToString());
+                    reporter.Report(step);
+                    capacity -= step;
+                    await Task.Delay(delay);
                 }
-            }
-
-            try
-            {
-                await BuildProgress().StartAsync(DeclareTasks, DoSomeWork1, DoSomeWork2);
-
-                foreach (var fn in files)
-                {
-                    AnsiConsole.MarkupLine($"{Emoji.Known.CheckMarkButton} [underline grey]{fn}[/]");
-                    var image = new CanvasImage(fn).MaxWidth(16);
-                    AnsiConsole.Render(image);
-                }
-            }
-            catch (Exception ex)
-            {
-                AnsiConsole.WriteException(ex);
             }
         }
 
@@ -89,33 +63,5 @@
                     new RemainingTimeColumn(),
                     new SpinnerColumn(),
                 });
-
-        private static async Task<string> DoSomeWorkCoreAsync(
-            HttpContent content,
-            IProgress<double> progress,
-            CancellationToken token)
-        {
-            string fileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
-            using var stream = await content.ReadAsStreamAsync(token);
-            using var file = new MemoryStream();
-            await stream.CopyToAsync(file, 2048, progress, token);
-            await File.WriteAllBytesAsync(fileName, file.ToArray(), token);
-            // using var file = File.OpenWrite(fileName);
-            return fileName;
-        }
-
-        private static HttpClient GenerateHttpClient()
-        {
-            var client = new HttpClient()
-            {
-                BaseAddress = new Uri("https://mod-dotnet-bot.net/assets/images/gallery/"),
-            };
-            client.DefaultRequestHeaders.Add("User-Agent", "BotScrapperFromSpectreConsole");
-            client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue()
-            {
-                NoCache = true,
-            };
-            return client;
-        }
     }
 }

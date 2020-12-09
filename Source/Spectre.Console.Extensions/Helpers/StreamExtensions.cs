@@ -11,7 +11,8 @@ namespace Spectre.Console.Extensions
             this Stream source,
             Stream destination,
             int bufferSize,
-            IProgress<double> progress = null,
+            // IProgress<double> progress = null,
+            ProgressTask progress = null,
             CancellationToken cancellationToken = default)
         {
             Guard();
@@ -22,7 +23,8 @@ namespace Spectre.Console.Extensions
             {
                 await destination.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
                 totalBytesRead += bytesRead;
-                progress?.Report(totalBytesRead);
+                // progress?.Report(totalBytesRead);
+                progress.Increment(bytesRead);
             }
 
             void Guard()
