@@ -4,6 +4,7 @@
     <PropertyGroup Label="Build">
       <MinVerDefaultPreReleasePhase>preview</MinVerDefaultPreReleasePhase>
       <MinVerVerbosity>normal</MinVerVerbosity>
+      <MinVerTagPrefix>v</MinVerTagPrefix>
     </PropertyGroup>
   </Target>
 

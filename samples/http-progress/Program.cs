@@ -32,8 +32,8 @@
                     httpClient,
                     new HttpRequestMessage(HttpMethod.Get, url),
                     taskDescription: url,
-                    (stream) => SaveFileAsync(stream, cts.Token)
-                        .ContinueWith((t) => { writtenFile = t.Result; }, TaskScheduler.Current));
+                    (stream) => SaveFileAsync(stream, cts.Token).ContinueWith(
+                            (t) => { writtenFile = t.Result; }, TaskScheduler.Current));
                 if (writtenFile is not null)
                 {
                     AnsiConsole.MarkupLine(
