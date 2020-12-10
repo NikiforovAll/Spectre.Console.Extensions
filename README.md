@@ -83,8 +83,10 @@ samples/iprogress-http-client-multiple-calls
 
 ## Spectre.Console.Extensions.Table
 
-remember to not bring exact version of DataTables, use X.Y
+Remember to not bring exact version of DataTables, use X.Y
 Check guidelines for microsoft for requirements for nuget packages
+
+TBD:
 
 TBD:
 
