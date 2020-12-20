@@ -1,23 +1,30 @@
-namespace Spectre.Console.Progress.Extensions.Test
+namespace Spectre.Console.Extensions.Test
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
-    using Spectre.Console;
-    using Spectre.Console.Extensions;
+    using Progress;
+    using Console;
     using Xunit;
 
     public class Spec
     {
+        private readonly TestableAnsiConsole testAnsiConsole;
+
+        public Spec()
+        {
+            this.testAnsiConsole = new TestableAnsiConsole(ColorSystem.TrueColor, width: 10);
+        }
+
         [Fact]
-        public async Task Progress_OneBarExtensionFromExtenssion_ReportIProgressAmountOnce()
+        public async Task Progress_OneBarExtensionFromExtension_ReportIProgressAmountOnce()
         {
             // Given
-            var console = new TestableAnsiConsole(ColorSystem.TrueColor, width: 10);
-            var taskName = "task1";
-            var amountToReport = 10d;
+            const string taskName = "task1";
+            const double amountToReport = 10d;
             ProgressTask? capturedProgressTask = default;
-            var progress = new Progress(console)
-                .Columns(new[] { new ProgressBarColumn() })
+            var progress = new Progress(this.testAnsiConsole)
+                .Columns(new ProgressColumn[] { new ProgressBarColumn() })
                 .AutoRefresh(false)
                 .AutoClear(true);
             await progress.StartAsync(
@@ -30,6 +37,18 @@ namespace Spectre.Console.Progress.Extensions.Test
                 reporter.Report(amountToReport);
                 return Task.CompletedTask;
             }
+        }
+
+        [Fact(Skip = "Learn how to mock http")]
+        public async Task HttpProgress_OneHttpRequestFromWithHttp_SuccessProgress()
+        {
+            var progress = new Progress(this.testAnsiConsole)
+                .Columns(new ProgressColumn[] { new ProgressBarColumn() })
+                .AutoRefresh(false)
+                .AutoClear(true);
+            var httpClient = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, "/");
+            await progress.WithHttp(httpClient, request,"", (stream) => Task.CompletedTask).StartAsync();
         }
 
         // TODO: consider to mock http client https://gingter.org/2018/07/26/how-to-mock-httpclient-in-your-net-c-unit-tests/

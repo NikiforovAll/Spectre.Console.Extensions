@@ -2,10 +2,12 @@
 
   <PropertyGroup Label="Build">
     <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">
-    <Product>Spectre.Console.Extensions</Product>
+    <Product>Spectre.Console.Extensions.Progress</Product>
     <Description>A library that makes it easier to do progress reporting for beautiful console apps made with Spectre.Console</Description>
+    <PackageTags>cli;spectre;extensions</PackageTags>
   </PropertyGroup>
 </Project>

@@ -7,7 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Spectre.Console;
-    using Spectre.Console.Extensions;
+    using Spectre.Console.Extensions.Progress;
 
     /// <summary>
     /// Entry point.
@@ -19,6 +19,31 @@
         /// </summary>
         /// <returns>Result.</returns>
         public static async Task Main()
+        {
+            string url = "http://speedtest-ny.turnkeyinternet.net/100mb.bin";
+            var httpClient = GenerateHttpClient();
+            CancellationTokenSource cts =
+                new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            try
+            {
+                var message1 = new HttpRequestMessage(HttpMethod.Get, url);
+                var message2 = new HttpRequestMessage(HttpMethod.Get, url);
+                await BuildProgress()
+                    .WithHttp(httpClient, message1, "Get large file1")
+                    .WithHttp(httpClient, message2, "Get large file2")
+                    .StartAsync(cts.Token);
+            }
+            catch (Exception e)
+            {
+                AnsiConsole.WriteException(e);
+            }
+        }
+
+        /// <summary>
+        /// Run StartAsync with single HttpClient and HttpRequestMessage right from Spectre.Progress
+        /// </summary>
+        /// <returns></returns>
+        private static async Task Main1()
         {
             // string url = "as5.png";
             string url = "http://speedtest-ny.turnkeyinternet.net/100mb.bin";

@@ -1,6 +1,6 @@
 # Spectre.Console.Extensions
 
-[![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)[![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions)](https://www.nuget.org/packages/Spectre.Console.Extensions/)[![Microsoft.Extensions.Http.Polly on fuget.org](https://www.fuget.org/packages/Spectre.Console.Extensions/badge.svg)](https://www.fuget.org/packages/Spectre.Console.Extensions)
+[![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)][![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 [![GitHub Actions Build History](https://buildstats.info/github/chart/nikiforovall/Spectre.Console.Extensions?branch=main&includeBuildsFromPullRequest=false)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)
 
@@ -10,7 +10,7 @@ The goal of this project is to extend [Spectre.Console](https://github.com/spect
 * Progress with automatic reporting for `HttpClient`.
 * Table with `DataTable`.
 
-## Spectre.Console.Extensions.Progress
+## Spectre.Console.Extensions.Progress [![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Progress)]
 
 Extensions for `AnsiConsole.Progress`
 
@@ -81,7 +81,7 @@ samples/iprogress
 samples/iprogress-http-client-multiple-calls
 ```
 
-## Spectre.Console.Extensions.Table
+## Spectre.Console.Extensions.Table [![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Table)]
 
 Remember to not bring exact version of DataTables, use X.Y
 Check guidelines for microsoft for requirements for nuget packages
