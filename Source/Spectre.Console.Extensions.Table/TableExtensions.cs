@@ -1,13 +1,5 @@
-namespace Spectre.Console.Extensions
+namespace Spectre.Console.Extensions.Table
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public static class TableExtensions
     {
         // TODO: add example: EF core in memory database + datatable + spectre.console

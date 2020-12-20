@@ -7,7 +7,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Source\Spectre.Console.Extensions\Spectre.Console.Extensions.csproj" />
+		<ProjectReference Include="..\..\Source\Spectre.Console.Extensions.Progress\Spectre.Console.Extensions.Progress.csproj" />
 	</ItemGroup>
 
   <PropertyGroup>

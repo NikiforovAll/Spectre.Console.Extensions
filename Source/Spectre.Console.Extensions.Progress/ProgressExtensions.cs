@@ -1,4 +1,4 @@
-namespace Spectre.Console.Extensions
+namespace Spectre.Console.Extensions.Progress
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,7 @@ namespace Spectre.Console.Extensions
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+    using Progress = Spectre.Console.Progress;
 
     /// <summary>
     /// Spectre Progress extensions methods.
@@ -22,8 +23,8 @@ namespace Spectre.Console.Extensions
             return progress.StartAsync(async (context) =>
             {
                 var rendarableTasks = taskFactory?
-                    .Invoke(context)?.ToArray()
-                        ?? throw new ArgumentException(nameof(StartAsync));
+                                          .Invoke(context)?.ToArray()
+                                      ?? throw new ArgumentException(nameof(StartAsync));
                 var tasks = new List<Task>(rendarableTasks.Length);
                 for (var i = 0; i < rendarableTasks.Length; i++)
                 {
@@ -46,11 +47,12 @@ namespace Spectre.Console.Extensions
             Func<IProgress<double>, Task> action)
         {
             ProgressTask[] NewFactory(ProgressContext ctx) =>
-                new ProgressTask[]
+                new[]
                 {
                     taskFactory?.Invoke(ctx)
-                        ?? throw new ArgumentException(nameof(StartAsync), nameof(taskFactory)),
+                    ?? throw new ArgumentException(nameof(StartAsync), nameof(taskFactory)),
                 };
+
             return progress.StartAsync(NewFactory, action);
         }
 
@@ -59,31 +61,63 @@ namespace Spectre.Console.Extensions
             HttpClient client,
             HttpRequestMessage request,
             string taskDescription,
-            Func<Stream, Task> callback,
+            Func<Stream, Task> callback = null,
             CancellationToken token = default)
         {
-            return progress.StartAsync( async (context) =>
-            {
-                using var message = await client.SendAsync(
-                    request,
-                    HttpCompletionOption.ResponseHeadersRead,
-                    token);
-                _ = message.EnsureSuccessStatusCode();
-                double? contentLength = message.Content.Headers.ContentLength;
-                var total = contentLength ?? -1;
+            return progress.WithHttp(client, request, taskDescription, callback).StartAsync(token);
+        }
 
-                var progressTask = context.AddTask(
-                    taskDescription,
-                    new ProgressTaskSettings {MaxValue = total });
-                var reporter = new Progress<double>(
-                    (d) => progressTask.Increment(d));
-                using var stream = await message.Content.ReadAsStreamAsync(token)
-                    .ConfigureAwait(false);
-                using var destination = new MemoryStream();
-                await stream.CopyToAsync(destination, 2048, progressTask, token)
-                    .ConfigureAwait(false);
+        internal static Task RunHttpReporterAsync(
+            ProgressContext progressContext,
+            HttpProgressContext httpProgressContext,
+            CancellationToken token) =>
+            RunHttpReporterAsync(
+                progressContext,
+                httpProgressContext.Client ?? throw new ArgumentException(nameof(httpProgressContext.Client)),
+                httpProgressContext.RequestMessage ?? throw new ArgumentException(nameof(httpProgressContext.RequestMessage)),
+                httpProgressContext.Description ?? string.Empty,
+                httpProgressContext.Callback,
+                token);
+
+        private static async Task RunHttpReporterAsync(
+            ProgressContext context,
+            HttpClient client,
+            HttpRequestMessage request,
+            string taskDescription,
+            Func<Stream, Task>? callback,
+            CancellationToken token)
+        {
+            using var message = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+            _ = message.EnsureSuccessStatusCode();
+            double? contentLength = message.Content.Headers.ContentLength;
+            var total = contentLength ?? -1;
+            var progressTask = context.AddTask(
+                taskDescription, new ProgressTaskSettings { MaxValue = total });
+            await using var stream = await message.Content.ReadAsStreamAsync(token)
+                .ConfigureAwait(false);
+            await using var destination = new MemoryStream();
+            await stream.CopyToAsync(destination, 2048, progressTask, token)
+                .ConfigureAwait(false);
+            if (callback is not null)
+            {
                 await callback.Invoke(destination).ConfigureAwait(false);
-            });
+            }
+        }
+
+        public static HttpProgress WithHttp(
+            this Progress progress,
+            HttpClient client,
+            HttpRequestMessage requestMessage,
+            string description,
+            Func<Stream, Task>? callback = null)
+        {
+            var ctx = new HttpProgress(progress);
+            ctx.Contexts.Add(
+                new HttpProgressContext()
+                {
+                    Client = client, RequestMessage = requestMessage, Description = description, Callback = callback,
+                });
+            return ctx;
         }
     }
 }

@@ -8,6 +8,6 @@
   <PropertyGroup Label="Package">
     <Product>Spectre.Console.Extensions.Progress</Product>
     <Description>A library that makes it easier to do progress reporting for beautiful console apps made with Spectre.Console</Description>
-    <PackageTags>CLI</PackageTags>
+    <PackageTags>cli;spectre;extensions</PackageTags>
   </PropertyGroup>
 </Project>
