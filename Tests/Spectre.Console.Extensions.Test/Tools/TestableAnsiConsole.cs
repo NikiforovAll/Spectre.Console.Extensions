@@ -1,4 +1,4 @@
-namespace Spectre.Console.Progress.Extensions.Test
+namespace Spectre.Console.Extensions.Test
 {
     using System;
     using System.Collections.Generic;

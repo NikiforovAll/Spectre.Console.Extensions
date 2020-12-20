@@ -1,6 +1,6 @@
 # Spectre.Console.Extensions
 
-[![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)[![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions)](https://www.nuget.org/packages/Spectre.Console.Extensions/)[![Microsoft.Extensions.Http.Polly on fuget.org](https://www.fuget.org/packages/Spectre.Console.Extensions/badge.svg)](https://www.fuget.org/packages/Spectre.Console.Extensions)
+[![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)[![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions)](https://www.nuget.org/packages/Spectre.Console.Extensions/)[![Microsoft.Extensions.Http.Polly on fuget.org](https://www.fuget.org/packages/Spectre.Console.Extensions/badge.svg)](https://www.fuget.org/packages/Spectre.Console.Extensions) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 [![GitHub Actions Build History](https://buildstats.info/github/chart/nikiforovall/Spectre.Console.Extensions?branch=main&includeBuildsFromPullRequest=false)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)
 

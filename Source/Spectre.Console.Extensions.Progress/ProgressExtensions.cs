@@ -35,13 +35,8 @@ namespace Spectre.Console.Extensions
                     var taskResult = actions[i].Invoke(arg);
                     tasks.Add(taskResult);
                 }
+
                 await Task.WhenAll(tasks);
-                // while (tasks.Any())
-                // {
-                //     var completed = await Task.WhenAny(tasks);
-                //     tasks.Remove(completed);
-                // }
-                // await Task.WhenAll(tasks);
             });
         }
 
@@ -79,7 +74,7 @@ namespace Spectre.Console.Extensions
 
                 var progressTask = context.AddTask(
                     taskDescription,
-                    new(){MaxValue = total });
+                    new ProgressTaskSettings {MaxValue = total });
                 var reporter = new Progress<double>(
                     (d) => progressTask.Increment(d));
                 using var stream = await message.Content.ReadAsStreamAsync(token)

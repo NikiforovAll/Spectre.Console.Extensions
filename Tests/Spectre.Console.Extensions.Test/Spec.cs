@@ -1,4 +1,4 @@
-namespace Spectre.Console.Progress.Extensions.Test
+namespace Spectre.Console.Extensions.Test
 {
     using System;
     using System.Threading.Tasks;
@@ -9,15 +9,15 @@ namespace Spectre.Console.Progress.Extensions.Test
     public class Spec
     {
         [Fact]
-        public async Task Progress_OneBarExtensionFromExtenssion_ReportIProgressAmountOnce()
+        public async Task Progress_OneBarExtensionFromExtenssion_ReportIProgressAmountOnceAsync()
         {
             // Given
             var console = new TestableAnsiConsole(ColorSystem.TrueColor, width: 10);
-            var taskName = "task1";
-            var amountToReport = 10d;
+            const string taskName = "task1";
+            const double amountToReport = 10d;
             ProgressTask? capturedProgressTask = default;
             var progress = new Progress(console)
-                .Columns(new[] { new ProgressBarColumn() })
+                .Columns(new ProgressColumn[] { new ProgressBarColumn() })
                 .AutoRefresh(false)
                 .AutoClear(true);
             await progress.StartAsync(
