@@ -1,6 +1,7 @@
 # Spectre.Console.Extensions
 
-[![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)][![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 [![GitHub Actions Build History](https://buildstats.info/github/chart/nikiforovall/Spectre.Console.Extensions?branch=main&includeBuildsFromPullRequest=false)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)
 
@@ -10,7 +11,7 @@ The goal of this project is to extend [Spectre.Console](https://github.com/spect
 * Progress with automatic reporting for `HttpClient`.
 * Table with `DataTable`.
 
-## Spectre.Console.Extensions.Progress [![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Progress)]
+## Spectre.Console.Extensions.Progress ![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Progress)
 
 Extensions for `AnsiConsole.Progress`
 
@@ -67,9 +68,9 @@ await BuildProgress().StartAsync(http, message, taskDescription: description, Do
 static async Task DownloadCallback(Stream stream) => {};
 
 await BuildProgress()
-    .WithHttp(http, request, description)
-    .WithHttp(http, request, description)
-    .StartAsync(DownloadCallback1, DownloadCallback2);
+    .WithHttp(http, request, description, DownloadCallback1)
+    .WithHttp(http, request, description, DownloadCallback2)
+    .StartAsync();
 
 ```
 
@@ -81,7 +82,7 @@ samples/iprogress
 samples/iprogress-http-client-multiple-calls
 ```
 
-## Spectre.Console.Extensions.Table [![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Table)]
+## Spectre.Console.Extensions.Table ![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Table)
 
 Remember to not bring exact version of DataTables, use X.Y
 Check guidelines for microsoft for requirements for nuget packages
