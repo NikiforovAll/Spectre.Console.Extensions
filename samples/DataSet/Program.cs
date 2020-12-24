@@ -5,13 +5,8 @@
     using System.Linq;
     using Bogus;
     using Spectre.Console;
-    using SpectreTable = Spectre.Console.Table;
     using Spectre.Console.Extensions.Table;
-
-    // TODO: add example: EF core in memory database + datatable + spectre.console
-    // TODO: add unit tests; integration tests
-    // https://stackoverflow.com/questions/23697467/returning-datatable-using-entity-framework
-
+    using DataSet = System.Data.DataSet;
 
     internal static class Program
     {
@@ -25,18 +20,14 @@
 
         private static void Main(string[] args)
         {
-            var dataTable = GenerateDataTable();
+            var dataSet = GenerateDataSet();
 
-            const int peopleSize = 10;
-            foreach (var row in FakePersons.Generate(peopleSize).Select(person => ToDataRow(person, dataTable)))
-            {
-                dataTable.Rows.Add(row);
-            }
+            var panel = dataSet
+                .FromDataSet((cfg) =>
+                    cfg.HeaderAlignment(Justify.Left)
+                        .BorderColor(Color.Grey));
 
-            var tableToDisplay = dataTable
-                .FromDataTable()
-                .Border(TableBorder.Rounded);
-            AnsiConsole.Render(tableToDisplay);
+            AnsiConsole.Render(panel);
         }
 
         private static DataRow ToDataRow(Person person, DataTable dataTable)
@@ -48,14 +39,30 @@
             return row;
         }
 
-        private static DataTable GenerateDataTable()
+        private static DataSet GenerateDataSet()
         {
-            DataTable dt = new();
-            dt.TableName = "Test";
-            _ = dt.Columns.Add(nameof(Person.FirstName), typeof(string));
-            _ = dt.Columns.Add(nameof(Person.LastName), typeof(string));
-            _ = dt.Columns.Add(nameof(Person.Address), typeof(string));
-            return dt;
+            DataSet ds = new();
+            ds.DataSetName = "PersonDataSet";
+            ds.Tables.Add(GenerateDataTable("People1"));
+            ds.Tables.Add(GenerateDataTable("People2"));
+            return ds;
+
+            static DataTable GenerateDataTable(string tableName)
+            {
+                DataTable dt = new();
+                dt.TableName = tableName;
+                _ = dt.Columns.Add(nameof(Person.FirstName), typeof(string));
+                _ = dt.Columns.Add(nameof(Person.LastName), typeof(string));
+                _ = dt.Columns.Add(nameof(Person.Address), typeof(string));
+
+                const int peopleSize = 10;
+                foreach (var row in FakePersons.Generate(peopleSize).Select(person => ToDataRow(person, dt)))
+                {
+                    dt.Rows.Add(row);
+                }
+
+                return dt;
+            }
         }
     }
 

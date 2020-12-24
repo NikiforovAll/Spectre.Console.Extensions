@@ -1,7 +1,10 @@
 namespace Spectre.Console.Extensions.Table
 {
+    using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using Rendering;
     using SpectreTable = Spectre.Console.Table;
 
     public static class TableExtensions
@@ -26,6 +29,29 @@ namespace Spectre.Console.Extensions.Table
             }
 
             return consoleTable;
+        }
+
+        public static IEnumerable<SpectreTable> FromDataSet(this DataSet dataSet)
+        {
+            foreach (var table in dataSet.Tables.OfType<DataTable>())
+            {
+                yield return table.FromDataTable();
+            }
+        }
+
+        public static IRenderable FromDataSet(this DataSet dataSet, Action<Panel> configurePanel)
+        {
+            var grid = new Grid();
+            _ = grid.AddColumn();
+            foreach (var table in dataSet.FromDataSet())
+            {
+                grid.AddRow(table);
+            }
+
+            var panel = new Panel(grid)
+                .Header(dataSet.DataSetName);
+            configurePanel?.Invoke(panel);
+            return panel;
         }
     }
 }

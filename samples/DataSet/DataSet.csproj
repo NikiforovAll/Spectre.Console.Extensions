@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Source\Spectre.Console.Extensions.Table\Spectre.Console.Extensions.Table.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="bogus" Version="32.0.2" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <OutputType>Exe</OutputType>
+      <TargetFramework>net5.0</TargetFramework>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Label="dotnet-example-configuration">
+      <ExampleTitle>dataset</ExampleTitle>
+      <ExampleDescription>Display DataSet via Spectre.Console</ExampleDescription>
+      <ExampleGroup>DataTable</ExampleGroup>
+    </PropertyGroup>
+</Project>

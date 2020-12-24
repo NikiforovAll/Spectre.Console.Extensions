@@ -27,10 +27,8 @@
         {
             await BuildProgress().StartAsync(
                 GenerateProgressTasks,
-                (reporter) =>
-                    RunSpinnerWithIProgress(reporter, TimeSpan.FromMilliseconds(500)),
-                (reporter) =>
-                    RunSpinnerWithIProgress(reporter, TimeSpan.FromSeconds(1)));
+                (reporter) => RunSpinnerWithIProgress(reporter, TimeSpan.FromMilliseconds(500)),
+                (reporter) => RunSpinnerWithIProgress(reporter, TimeSpan.FromSeconds(1)));
 
             static IEnumerable<ProgressTask> GenerateProgressTasks(ProgressContext ctx)
             {
