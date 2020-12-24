@@ -4,15 +4,17 @@ namespace Spectre.Console.Extensions.Table
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using Rendering;
+    using Spectre.Console.Rendering;
     using SpectreTable = Spectre.Console.Table;
 
     public static class TableExtensions
     {
         public static SpectreTable FromDataTable(this DataTable dataTable)
         {
-            var consoleTable = new SpectreTable();
-            consoleTable.Title = new TableTitle(dataTable.TableName);
+            var consoleTable = new SpectreTable
+            {
+                Title = new TableTitle(dataTable.TableName),
+            };
             foreach (var column in dataTable.Columns.OfType<DataColumn>())
             {
                 string title = column.Caption ?? column.ColumnName ?? string.Empty;

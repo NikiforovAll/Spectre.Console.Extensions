@@ -3,6 +3,7 @@
 ![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+
 [![GitHub Actions Build History](https://buildstats.info/github/chart/nikiforovall/Spectre.Console.Extensions?branch=main&includeBuildsFromPullRequest=false)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)
 
 The goal of this project is to extend [Spectre.Console](https://github.com/spectresystems/spectre.console) plugins with some niche functionality.
@@ -77,9 +78,15 @@ await BuildProgress()
 For more details, please see:
 
 ```bash
-samples/http-progress
-samples/iprogress
-samples/iprogress-http-client-multiple-calls
+.
+|-- Samples
+|   |-- DataSet
+|   |-- DataTable
+|   |-- Directory.Build.props
+|   |-- http-progress
+|   |-- iprogress
+|   `-- iprogress-http-client-multiple-calls
+...
 ```
 
 ## Spectre.Console.Extensions.Table ![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Table)
@@ -87,38 +94,24 @@ samples/iprogress-http-client-multiple-calls
 Remember to not bring exact version of DataTables, use X.Y
 Check guidelines for microsoft for requirements for nuget packages
 
-TBD:
-
-TBD:
+```csharp
+System.Data.DataTable dataTable = DataTableFactory();
+var table = dataTable.FromDataTable().Border(TableBorder.Rounded);
+AnsiConsole.Render();
+```
 
 ## TODO
 
 * Add xml-doc for existing public APIs.
 * Add `CancellationToken` to method based on `IProgerss`
 * Finalize design for `Spectre.Console.Progress.Extensions`
-* Consider to provide separate NuGet packages for plugins.
-* Rename extras to `Spectre.Console.Extensions.<PluginName>`
-* Add link to base lib and license reference
-* Adjust package description
 * Add DataTable extension.
 * Add statiq docs
 * Consider to add Start overload for IProgress scenario
 * Consider to remove IProgress from HttpProgress
-* Consider to add Progress.WithHttpClient().StartAsync
-  * aka fluent version
-  * consider overload that allows to make multiple calls
-* Add HttpProgress overload to support multiple simultaneous calls.
 * Check Stream disposal for HttpProgress
 * Add unit tests.
-* Change the .snk file
-* Add .netstandard
-* Add multiple nuget packages, as described here: <https://github.com/RehanSaeed/Serilog.Exceptions>
-* Add tags to projects
 * Fix warnings; consider to TreatWarningsAsErrors
-* Add Fuget
-* Add Nuget Labels
-* Add New Layout for multiple NuGet packages, as for System.CommandLine;
-* Add demos
 
 ## Examples
 
@@ -144,4 +137,4 @@ And to run an example:
 
 Copyright © Alexey Nikiforov.
 
-Provided as-is under the MIT license. For more information see LICENSE.
+Provided as-is under the MIT license. For more information see [LICENSE.md](./LICENSE.md).

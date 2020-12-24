@@ -94,8 +94,14 @@ namespace Spectre.Console.Extensions.Progress
             var total = contentLength ?? -1;
             var progressTask = context.AddTask(
                 taskDescription, new ProgressTaskSettings { MaxValue = total });
+;
+            #if NET5_0
             await using var stream = await message.Content.ReadAsStreamAsync(token)
                 .ConfigureAwait(false);
+            #else
+            await using var stream = await message.Content.ReadAsStreamAsync()
+                .ConfigureAwait(false);
+            #endif
             await using var destination = new MemoryStream();
             await stream.CopyToAsync(destination, 2048, progressTask, token)
                 .ConfigureAwait(false);
