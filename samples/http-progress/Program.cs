@@ -24,7 +24,7 @@
             var httpClient = GenerateHttpClient();
 
             CancellationTokenSource cts =
-                new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                new CancellationTokenSource(TimeSpan.FromSeconds(2));
             try
             {
                 var message1 = new HttpRequestMessage(HttpMethod.Get, url);

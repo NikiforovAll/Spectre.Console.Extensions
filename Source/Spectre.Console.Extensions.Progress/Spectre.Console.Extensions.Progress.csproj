@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Build">
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">
     <Product>Spectre.Console.Extensions.Progress</Product>
     <Description>A library that makes it easier to do progress reporting for beautiful console apps made with Spectre.Console</Description>
-    <PackageTags>cli;spectre;extensions</PackageTags>
+    <PackageTags>cli;spectre;extensions;iprogress</PackageTags>
   </PropertyGroup>
 </Project>
