@@ -10,8 +10,9 @@
 		<ProjectReference Include="..\..\Source\Spectre.Console.Extensions.Progress\Spectre.Console.Extensions.Progress.csproj" />
 	</ItemGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="dotnet-example-configuration">
     <ExampleTitle>http</ExampleTitle>
     <ExampleDescription>Visualize http downloading based on AnsiConsole.Progress().</ExampleDescription>
+    <ExampleGroup>Progress</ExampleGroup>
   </PropertyGroup>
 </Project>

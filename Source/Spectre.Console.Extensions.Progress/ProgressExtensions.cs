@@ -7,6 +7,7 @@ namespace Spectre.Console.Extensions.Progress
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+    using Helpers;
     using Progress = Spectre.Console.Progress;
 
     /// <summary>
