@@ -1,7 +1,8 @@
-namespace Spectre.Console.Extensions
+namespace Spectre.Console.Extensions.Progress.Helpers
 {
     using System;
     using System.IO;
+    using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,8 +31,8 @@ namespace Spectre.Console.Extensions
                 var exception = (source, destination, bufferSize) switch
                 {
                     (null, _, _) => new ArgumentNullException(nameof(source)),
-                    ( { CanRead: false }, _, _) => new ArgumentException("Has to be readable", nameof(source)),
-                    (_, null, _) => new ArgumentException(nameof(destination)),
+                    ({ CanRead: false }, _, _) => new ArgumentException("Has to be readable", nameof(source)),
+                    (_, null, _) => new ArgumentException(null, nameof(destination)),
                     (_, { CanWrite: false }, _) => throw new ArgumentException("Has to be writable", nameof(destination)),
                     (_, _, < 0) => new ArgumentOutOfRangeException(nameof(bufferSize)),
                     _ => null

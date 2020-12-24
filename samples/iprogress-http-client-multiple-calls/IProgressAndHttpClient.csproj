@@ -6,11 +6,12 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Source\Spectre.Console.Extensions\Spectre.Console.Extensions.csproj" />
+		<ProjectReference Include="..\..\Source\Spectre.Console.Extensions.Progress\Spectre.Console.Extensions.Progress.csproj" />
 	</ItemGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="dotnet-example-configuration">
     <ExampleTitle>iprogress-http</ExampleTitle>
-    <ExampleDescription>An example how to use AnsiConsole.Progress() with IProgress interface and HttpClient with multiple calls</ExampleDescription>
+    <ExampleDescription>An example how to use AnsiConsole.Progress() with IProgress interface and HttpClient with multiple calls.</ExampleDescription>
+    <ExampleGroup>Progress</ExampleGroup>
   </PropertyGroup>
 </Project>

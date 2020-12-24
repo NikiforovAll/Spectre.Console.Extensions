@@ -22,6 +22,7 @@
         {
             string url = "http://speedtest-ny.turnkeyinternet.net/100mb.bin";
             var httpClient = GenerateHttpClient();
+
             CancellationTokenSource cts =
                 new CancellationTokenSource(TimeSpan.FromSeconds(10));
             try
