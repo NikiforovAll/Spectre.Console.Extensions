@@ -1,6 +1,8 @@
 # Spectre.Console.Extensions
 
-![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
 
 [![GitHub Actions Build History](https://buildstats.info/github/chart/nikiforovall/Spectre.Console.Extensions?branch=main&includeBuildsFromPullRequest=false)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)
 
@@ -67,9 +69,9 @@ await BuildProgress().StartAsync(http, message, taskDescription: description, Do
 static async Task DownloadCallback(Stream stream) => {};
 
 await BuildProgress()
-    .WithHttp(http, request, description)
-    .WithHttp(http, request, description)
-    .StartAsync(DownloadCallback1, DownloadCallback2);
+    .WithHttp(http, request, description, DownloadCallback1)
+    .WithHttp(http, request, description, DownloadCallback2)
+    .StartAsync();
 
 ```
 
