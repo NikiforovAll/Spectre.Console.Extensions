@@ -3,8 +3,8 @@ namespace Spectre.Console.Extensions.Test
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Progress;
-    using Console;
+    using Spectre.Console.Extensions.Progress;
+    using Spectre.Console;
     using Xunit;
 
     public class Spec

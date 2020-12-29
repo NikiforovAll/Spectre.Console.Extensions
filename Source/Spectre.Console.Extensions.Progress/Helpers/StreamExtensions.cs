@@ -6,8 +6,21 @@ namespace Spectre.Console.Extensions.Progress.Helpers
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// A stream extensions to enable progress functionality.
+    /// </summary>
     internal static class StreamExtensions
     {
+        /// <summary>
+        /// Copy source <see cref="Stream"/> to destination and reported the number of bytes read to provided <paramref name="progress"/>.
+        /// </summary>
+        /// <param name="source">A source.</param>
+        /// <param name="destination">A destination.</param>
+        /// <param name="bufferSize">A buffer size to perform reading and reporting.</param>
+        /// <param name="progress">A progress element to report progress.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentException">Throw when it is not possible to report or perform copying.</exception>
         public static async Task CopyToAsync(
             this Stream source,
             Stream destination,

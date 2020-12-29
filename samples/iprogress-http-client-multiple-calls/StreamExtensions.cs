@@ -22,12 +22,12 @@ namespace Samples
             {
                 await destination.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
                 totalBytesRead += bytesRead;
-                // await Task.Delay(100, cancellationToken);
                 progress?.Report(totalBytesRead);
             }
 
             void Guard()
             {
+                #pragma warning disable SA1012
                 var exception = (source, destination, bufferSize) switch
                 {
                     (null, _, _) => new ArgumentNullException(nameof(source)),
@@ -42,6 +42,7 @@ namespace Samples
                 {
                     throw exception;
                 }
+                #pragma warning restore
             }
         }
     }
