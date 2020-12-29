@@ -49,6 +49,7 @@
                 yield return context.AddTask(
                     $"Content-Length: {totals[1]}", new ProgressTaskSettings() { MaxValue = totals[1] ?? -1 });
             }
+
             var files = new List<string>();
             Task DoSomeWork1(IProgress<double> p) =>
                 DoSomeWorkCoreAsync(messages[0].Content, p, cts.Token)
@@ -58,11 +59,12 @@
                 DoSomeWorkCoreAsync(messages[1].Content, p, cts.Token)
                     .ContinueWith(ReportReceivedFile, TaskScheduler.Current);
 
-            void ReportReceivedFile<T>(Task<T> t)
+            async Task ReportReceivedFile<T>(Task<T> t)
             {
+                var result = await t;
                 lock (files)
                 {
-                    files.Add(t.Result.ToString());
+                    files.Add(result.ToString());
                 }
             }
 
