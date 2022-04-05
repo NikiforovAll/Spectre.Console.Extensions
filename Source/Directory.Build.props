@@ -21,8 +21,8 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package References">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" Version="1.0.0" />
-    <PackageReference Include="Spectre.Console" Version="0.32.*" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" Version="1.1.1" />
+    <PackageReference Include="Spectre.Console" Version="0.44.*" />
   </ItemGroup>
 
   <ItemGroup Label="Files">
