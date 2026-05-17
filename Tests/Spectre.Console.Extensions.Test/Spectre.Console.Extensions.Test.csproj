@@ -5,9 +5,14 @@
     <ProjectReference Include="..\..\Source\Spectre.Console.Extensions.Progress\Spectre.Console.Extensions.Progress.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console.Testing" Version="0.55.2" />
+  </ItemGroup>
+
   <PropertyGroup Label="Build">
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
 </Project>

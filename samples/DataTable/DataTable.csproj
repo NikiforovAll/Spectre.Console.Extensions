@@ -5,12 +5,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="bogus" Version="32.0.2" />
+      <PackageReference Include="Bogus" Version="35.6.5" />
     </ItemGroup>
 
     <PropertyGroup>
       <OutputType>Exe</OutputType>
-      <TargetFramework>net6.0</TargetFramework>
+      <TargetFramework>net10.0</TargetFramework>
+      <Nullable>enable</Nullable>
+      <ImplicitUsings>enable</ImplicitUsings>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 

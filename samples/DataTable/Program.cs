@@ -5,38 +5,44 @@
     using System.Linq;
     using Bogus;
     using Spectre.Console;
-    using SpectreTable = Spectre.Console.Table;
     using Spectre.Console.Extensions.Table;
+    using SpectreTable = Spectre.Console.Table;
 
     // TODO: add example: EF core in memory database + datatable + spectre.console
     // TODO: add unit tests; integration tests
     // https://stackoverflow.com/questions/23697467/returning-datatable-using-entity-framework
-
 
     internal static class Program
     {
         private static readonly Faker<Person> FakePersons = new Faker<Person>()
             .RuleFor(p => p.FirstName, f => f.Person.FirstName)
             .RuleFor(p => p.LastName, f => f.Person.LastName)
-            .RuleFor(p => p.Address, f => new Faker<Address>()
-                .RuleFor(address => address.City, f1 => f1.Address.City())
-                .RuleFor(address => address.Street, f2 => f2.Address.StreetName())
-                .RuleFor(address => address.ZipCode, f3 => f3.Random.Number(0, 1_000)).Generate());
+            .RuleFor(
+                p => p.Address,
+                f =>
+                    new Faker<Address>()
+                        .RuleFor(address => address.City, f1 => f1.Address.City())
+                        .RuleFor(address => address.Street, f2 => f2.Address.StreetName())
+                        .RuleFor(address => address.ZipCode, f3 => f3.Random.Number(0, 1_000))
+                        .Generate()
+            );
 
         private static void Main(string[] args)
         {
             var dataTable = GenerateDataTable();
 
             const int peopleSize = 10;
-            foreach (var row in FakePersons.Generate(peopleSize).Select(person => ToDataRow(person, dataTable)))
+            foreach (
+                var row in FakePersons
+                    .Generate(peopleSize)
+                    .Select(person => ToDataRow(person, dataTable))
+            )
             {
                 dataTable.Rows.Add(row);
             }
 
-            var tableToDisplay = dataTable
-                .FromDataTable()
-                .Border(TableBorder.Rounded);
-            AnsiConsole.Render(tableToDisplay);
+            var tableToDisplay = dataTable.FromDataTable().Border(TableBorder.Rounded);
+            AnsiConsole.Write(tableToDisplay);
         }
 
         private static DataRow ToDataRow(Person person, DataTable dataTable)
