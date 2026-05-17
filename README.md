@@ -1,9 +1,7 @@
 # Spectre.Console.Extensions
 
-![GitHub Actions Status](https://github.com/nikiforovall/Spectre.Console.Extensions/workflows/Build/badge.svg?branch=main)
+[![Build](https://github.com/NikiforovAll/Spectre.Console.Extensions/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/NikiforovAll/Spectre.Console.Extensions/actions/workflows/build.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-
-[![GitHub Actions Build History](https://buildstats.info/github/chart/nikiforovall/Spectre.Console.Extensions?branch=main&includeBuildsFromPullRequest=false)](https://github.com/nikiforovall/Spectre.Console.Extensions/actions)
 
 The goal of this project is to extend [Spectre.Console](https://github.com/spectresystems/spectre.console) plugins with some niche functionality.
 
@@ -16,7 +14,7 @@ Package                               | Version                                 
 `Spectre.Console.Extensions.Progress` | [![Nuget](https://img.shields.io/nuget/v/Spectre.Console.Extensions.Progress.svg)](https://nuget.org/packages/Spectre.Console.Extensions.Progress) | IProgress adapter and HttpClient reporting.
 `Spectre.Console.Extensions.Table`    | [![Nuget](https://img.shields.io/nuget/v/Spectre.Console.Extensions.Table.svg)](https://nuget.org/packages/Spectre.Console.Extensions.Table)       | DataTable and DataSet support.
 
-## Spectre.Console.Extensions.Progress ![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Progress)
+## Spectre.Console.Extensions.Progress [![Nuget](https://img.shields.io/nuget/v/Spectre.Console.Extensions.Progress.svg)](https://nuget.org/packages/Spectre.Console.Extensions.Progress)
 
 Extensions for `AnsiConsole.Progress`
 
@@ -79,14 +77,14 @@ await BuildProgress()
 
 ```
 
-## Spectre.Console.Extensions.Table ![NuGet Badge](https://buildstats.info/nuget/Spectre.Console.Extensions.Table)
+## Spectre.Console.Extensions.Table [![Nuget](https://img.shields.io/nuget/v/Spectre.Console.Extensions.Table.svg)](https://nuget.org/packages/Spectre.Console.Extensions.Table)
 
 Display `System.Data.DataTable`.
 
 ```csharp
 System.Data.DataTable dataTable = DataTableFactory();
 var table = dataTable.FromDataTable().Border(TableBorder.Rounded);
-AnsiConsole.Render();
+AnsiConsole.Write(table);
 ```
 
 ## TODO
