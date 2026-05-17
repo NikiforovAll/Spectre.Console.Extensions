@@ -25,29 +25,27 @@
 
         private static async Task RunHttpClientDemoAsync()
         {
-            string[] urls =
-            {
-                "as5.png",
-                "dotNET-bot_kamckinn_v2.png",
-            };
+            string[] urls = { "as5.png", "dotNET-bot_kamckinn_v2.png" };
             var client = GenerateHttpClient();
-            CancellationTokenSource cts =
-                new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            var messagesTasks = urls
-                .Select(u => client.GetAsync(
-                    u, HttpCompletionOption.ResponseHeadersRead, cts.Token)).ToList();
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            var messagesTasks = urls.Select(u =>
+                    client.GetAsync(u, HttpCompletionOption.ResponseHeadersRead, cts.Token)
+                )
+                .ToList();
             var work = Task.WhenAll(messagesTasks);
             var messages = messagesTasks.Select(t => t.Result.EnsureSuccessStatusCode()).ToList();
-            IList<long?> totals = messages
-                .Select(m => m.Content.Headers.ContentLength)
-                .ToList();
+            IList<long?> totals = messages.Select(m => m.Content.Headers.ContentLength).ToList();
 
             IEnumerable<ProgressTask> DeclareTasks(ProgressContext context)
             {
                 yield return context.AddTask(
-                    $"Content-Length: {totals[0]}", new ProgressTaskSettings() { MaxValue = totals[0] ?? -1 });
+                    $"Content-Length: {totals[0]}",
+                    new ProgressTaskSettings() { MaxValue = totals[0] ?? -1 }
+                );
                 yield return context.AddTask(
-                    $"Content-Length: {totals[1]}", new ProgressTaskSettings() { MaxValue = totals[1] ?? -1 });
+                    $"Content-Length: {totals[1]}",
+                    new ProgressTaskSettings() { MaxValue = totals[1] ?? -1 }
+                );
             }
 
             var files = new List<string>();
@@ -74,9 +72,11 @@
 
                 foreach (var fn in files)
                 {
-                    AnsiConsole.MarkupLine($"{Emoji.Known.CheckMarkButton} [underline grey]{fn}[/]");
+                    AnsiConsole.MarkupLine(
+                        $"{Emoji.Known.CheckMarkButton} [underline grey]{fn}[/]"
+                    );
                     var image = new CanvasImage(fn).MaxWidth(16);
-                    AnsiConsole.Render(image);
+                    AnsiConsole.Write(image);
                 }
             }
             catch (Exception ex)
@@ -86,20 +86,24 @@
         }
 
         private static Progress BuildProgress() =>
-            AnsiConsole.Progress()
-                .Columns(new ProgressColumn[]
-                {
-                    new TaskDescriptionColumn(),
-                    new ProgressBarColumn(),
-                    new PercentageColumn(),
-                    new RemainingTimeColumn(),
-                    new SpinnerColumn(),
-                });
+            AnsiConsole
+                .Progress()
+                .Columns(
+                    new ProgressColumn[]
+                    {
+                        new TaskDescriptionColumn(),
+                        new ProgressBarColumn(),
+                        new PercentageColumn(),
+                        new RemainingTimeColumn(),
+                        new SpinnerColumn(),
+                    }
+                );
 
         private static async Task<string> DoSomeWorkCoreAsync(
             HttpContent content,
             IProgress<double> progress,
-            CancellationToken token)
+            CancellationToken token
+        )
         {
             string fileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
             using var stream = await content.ReadAsStreamAsync(token);
