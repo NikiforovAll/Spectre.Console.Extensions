@@ -66,6 +66,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: 'windows-latest'
+          path: 'windows-latest'
       - name: 'Dotnet NuGet Add Source'
         run: dotnet nuget add source https://nuget.pkg.github.com/nikiforovall/index.json --name GitHub --username nikiforovall --password ${{secrets.GITHUB_TOKEN}}
         shell: pwsh
@@ -83,6 +84,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: 'windows-latest'
+          path: 'windows-latest'
       - name: 'Dotnet NuGet Push'
         run: |
           Get-ChildItem .\windows-latest -Filter *.nupkg |
